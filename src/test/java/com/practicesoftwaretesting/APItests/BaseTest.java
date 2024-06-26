@@ -1,4 +1,4 @@
-package com.practicesoftwaretesting;
+package com.practicesoftwaretesting.APItests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -12,7 +12,6 @@ public abstract class BaseTest {
     static {
         configureRestAssured();
         RestAssured.requestSpecification = new RequestSpecBuilder()
-                .setBaseUri("https://api.practicesoftwaretesting.com")
                 .log(LogDetail.ALL)
                 .build();
         RestAssured.responseSpecification = new ResponseSpecBuilder()
