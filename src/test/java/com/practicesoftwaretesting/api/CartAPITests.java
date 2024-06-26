@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CartAPITests extends BaseTest{
 
-    private static final String PRODUCT_ID = "01J0VCWHNSRYKW2QVNWHJ1N3F3";
+    private static final String PRODUCT_ID = "01J1AGZ9F737CQEK7HX4BM1G1T";
 
     CartController cartController = new CartController();
 
