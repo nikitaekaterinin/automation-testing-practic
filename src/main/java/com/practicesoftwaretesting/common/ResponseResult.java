@@ -1,4 +1,4 @@
-package com.practicesoftwaretesting.Common;
+package com.practicesoftwaretesting.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

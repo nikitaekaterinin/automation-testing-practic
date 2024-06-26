@@ -1,9 +1,9 @@
-package com.practicesoftwaretesting.APItests;
+package com.practicesoftwaretesting.api;
 
 import com.github.javafaker.Faker;
-import com.practicesoftwaretesting.Common.ResponseMessage;
-import com.practicesoftwaretesting.User.Model.*;
-import com.practicesoftwaretesting.User.UserController;
+import com.practicesoftwaretesting.common.ResponseMessage;
+import com.practicesoftwaretesting.user.model.*;
+import com.practicesoftwaretesting.user.UserController;
 
 import org.junit.jupiter.api.Test;
 

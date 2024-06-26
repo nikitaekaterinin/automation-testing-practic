@@ -1,11 +1,11 @@
-package com.practicesoftwaretesting.APItests;
+package com.practicesoftwaretesting.api;
 
-import com.practicesoftwaretesting.Cart.CartController;
-import com.practicesoftwaretesting.Cart.Model.AddItemToCartRequest;
-import com.practicesoftwaretesting.Cart.Model.CartItem;
-import com.practicesoftwaretesting.Cart.Model.CartOptions;
-import com.practicesoftwaretesting.Cart.Model.CreatedCartResponse;
-import com.practicesoftwaretesting.Common.ResponseResult;
+import com.practicesoftwaretesting.cart.CartController;
+import com.practicesoftwaretesting.cart.model.AddItemToCartRequest;
+import com.practicesoftwaretesting.cart.model.CartItem;
+import com.practicesoftwaretesting.cart.model.CartOptions;
+import com.practicesoftwaretesting.cart.model.CreatedCartResponse;
+import com.practicesoftwaretesting.common.ResponseResult;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,4 @@
-package com.practicesoftwaretesting.Cart.Model;
+package com.practicesoftwaretesting.cart.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

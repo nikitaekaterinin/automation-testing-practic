@@ -1,8 +1,8 @@
-package com.practicesoftwaretesting.User;
+package com.practicesoftwaretesting.user;
 
-import com.practicesoftwaretesting.Common.BaseController;
-import com.practicesoftwaretesting.User.Model.NewUserRegisterRequest;
-import com.practicesoftwaretesting.User.Model.UserLoginRequest;
+import com.practicesoftwaretesting.common.BaseController;
+import com.practicesoftwaretesting.user.model.NewUserRegisterRequest;
+import com.practicesoftwaretesting.user.model.UserLoginRequest;
 
 import io.restassured.response.Response;
 

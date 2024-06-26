@@ -1,7 +1,7 @@
-package com.practicesoftwaretesting.Cart;
+package com.practicesoftwaretesting.cart;
 
-import com.practicesoftwaretesting.Cart.Model.AddItemToCartRequest;
-import com.practicesoftwaretesting.Common.BaseController;
+import com.practicesoftwaretesting.cart.model.AddItemToCartRequest;
+import com.practicesoftwaretesting.common.BaseController;
 import io.restassured.response.Response;
 
 public class CartController extends BaseController {

@@ -1,4 +1,4 @@
-package com.practicesoftwaretesting.Common;
+package com.practicesoftwaretesting.common;
 
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
