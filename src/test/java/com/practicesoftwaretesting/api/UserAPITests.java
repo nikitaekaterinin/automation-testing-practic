@@ -1,10 +1,12 @@
-package com.practicesoftwaretesting;
+package com.practicesoftwaretesting.api;
 
 import com.github.javafaker.Faker;
-import io.restassured.RestAssured;
+import com.practicesoftwaretesting.common.ResponseMessage;
+import com.practicesoftwaretesting.user.model.*;
+import com.practicesoftwaretesting.user.UserController;
+
 import org.junit.jupiter.api.Test;
 
-import static io.restassured.http.ContentType.JSON;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserAPITests extends BaseTest {
@@ -12,47 +14,36 @@ public class UserAPITests extends BaseTest {
     private static final String USER_PASSWORD = "NanaJJ1929##";
     private String userEmail;
 
+    UserController userController = new UserController();
+
     @Test
     void testUserCreateDelete() {
         userEmail = getUserEmail();
 
         var requestRegisterBody = buildUser();
-        var registeredUserResponse = RestAssured.given()
-                .contentType(JSON)
-                .body(requestRegisterBody)
-                .post("/users/register")
+        var registeredUserResponse = userController.registerUser(requestRegisterBody)
                 .as(NewUserRegisteredResponse.class);
-        assertEquals("Kate",registeredUserResponse.getFirstName());
+        assertEquals("Kate", registeredUserResponse.getFirstName());
         assertNotNull(registeredUserResponse.getId());
 
         var requestUserLoginBody = new UserLoginRequest(userEmail, USER_PASSWORD);
-        var userLoginResponse = RestAssured.given()
-                .contentType(JSON)
-                .body(requestUserLoginBody)
-                .post("/users/login")
+        var userLoginResponse = userController.loginUser(requestUserLoginBody)
                 .as(UserLoginResponse.class);
         assertNotNull(userLoginResponse.getAccessToken());
 
         var adminLoginRequestBody = new UserLoginRequest("admin@practicesoftwaretesting.com", "welcome01");
-        var adminloginResponse = RestAssured.given()
-                .contentType(JSON)
-                .body(adminLoginRequestBody)
-                .post("/users/login")
+        var adminloginResponse = userController.loginUser(adminLoginRequestBody)
                 .as(UserLoginResponse.class);
         assertNotNull(adminloginResponse.getAccessToken());
 
         var userId = registeredUserResponse.getId();
         var token = adminloginResponse.getAccessToken();
 
-        RestAssured.given()
-                .header("Authorization", "Bearer" + token)
-                .delete("/users/" + userId)
+        userController.deleteUser(userId, token)
                 .then()
                 .statusCode(204);
 
-        var messageAfterDelete = RestAssured.given()
-                .header("Authorization", "Bearer" + token)
-                .get("/users/" + userId)
+        var messageAfterDelete = userController.getUser(userId, token)
                 .as(ResponseMessage.class);
         assertEquals("Requested item not found", messageAfterDelete.getMessage());
     }
