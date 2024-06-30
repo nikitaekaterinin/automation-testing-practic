@@ -1,29 +1,43 @@
 package com.practicesoftwaretesting.cart;
 
 import com.practicesoftwaretesting.cart.model.AddItemToCartRequest;
+import com.practicesoftwaretesting.cart.model.CartOptions;
+import com.practicesoftwaretesting.cart.model.CreatedCartResponse;
 import com.practicesoftwaretesting.common.BaseController;
-import io.restassured.response.Response;
+import com.practicesoftwaretesting.common.ResponseDecorator;
+import com.practicesoftwaretesting.common.ResponseResult;
 
-public class CartController extends BaseController {
+public class CartController extends BaseController<CartController> {
 
-    public Response createCart() {
-        return baseClient()
-                .post("/carts");
+    public ResponseDecorator<CreatedCartResponse> createCart() {
+        return new ResponseDecorator<>(
+                baseClient().post("/carts"),
+                CreatedCartResponse.class
+        );
     }
 
-    public Response addItemToCart(String cartId, AddItemToCartRequest itemToAdd) {
-        return baseClient()
-                .body(itemToAdd)
-                .post("/carts/" + cartId);
+    public ResponseDecorator<ResponseResult> addItemToCart(String cartId, AddItemToCartRequest cartItem) {
+        return new ResponseDecorator<>(
+                baseClient()
+                        .body(cartItem)
+                        .post("/carts/" + cartId),
+                ResponseResult.class
+        );
     }
 
-    public Response getCart(String cartId) {
-        return baseClient()
-                .get("/carts/" + cartId);
+    public ResponseDecorator<CartOptions> getCart(String cartId) {
+        return new ResponseDecorator<>(
+                baseClient()
+                        .get("/carts/" + cartId),
+                CartOptions.class
+        );
     }
 
-    public Response deleteCart(String cartId) {
-        return baseClient()
-                .delete("/carts/" + cartId);
+    public ResponseDecorator<Void> deleteCart(String cartId) {
+        return new ResponseDecorator<>(
+                baseClient()
+                        .delete("/carts/" + cartId),
+                Void.class
+        );
     }
 }
