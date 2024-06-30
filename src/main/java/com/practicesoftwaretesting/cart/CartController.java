@@ -5,7 +5,7 @@ import com.practicesoftwaretesting.cart.model.CartOptions;
 import com.practicesoftwaretesting.cart.model.CreatedCartResponse;
 import com.practicesoftwaretesting.common.BaseController;
 import com.practicesoftwaretesting.common.ResponseDecorator;
-import com.practicesoftwaretesting.common.ResponseResult;
+import com.practicesoftwaretesting.common.responses.ResponseResult;
 
 public class CartController extends BaseController<CartController> {
 

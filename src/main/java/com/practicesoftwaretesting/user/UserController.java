@@ -2,7 +2,7 @@ package com.practicesoftwaretesting.user;
 
 import com.practicesoftwaretesting.common.BaseController;
 import com.practicesoftwaretesting.common.ResponseDecorator;
-import com.practicesoftwaretesting.common.ResponseMessage;
+import com.practicesoftwaretesting.common.responses.ResponseMessage;
 import com.practicesoftwaretesting.user.model.NewUserRegisterRequest;
 import com.practicesoftwaretesting.user.model.NewUserRegisteredResponse;
 import com.practicesoftwaretesting.user.model.UserLoginRequest;
