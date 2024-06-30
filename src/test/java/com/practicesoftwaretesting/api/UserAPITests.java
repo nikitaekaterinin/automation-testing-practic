@@ -6,11 +6,13 @@ import com.practicesoftwaretesting.user.asserts.UserRegistrationAsserts;
 import com.practicesoftwaretesting.user.model.*;
 import com.practicesoftwaretesting.user.UserController;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 public class UserAPITests extends BaseTest {
 
     private String userEmail;
+    private String userId;
 
     UserController userController = new UserController();
 
@@ -40,18 +42,12 @@ public class UserAPITests extends BaseTest {
                 .accessTokenIsNotNull()
                 .tokenTypeIs("bearer");
 
-        var adminLoginRequestBody = new UserLoginRequest("admin@practicesoftwaretesting.com", "welcome01");
-        var adminloginResponse = userController.loginUser(adminLoginRequestBody)
-                .assertStatusCode(200)
-                .as();
-        new LoginUserAsserts(adminloginResponse)
-                .isNotExpired()
-                .accessTokenIsNotNull()
-                .tokenTypeIs("bearer");
+        userId = registeredUserResponse.getId();
+    }
 
-        var userId = registeredUserResponse.getId();
-        var token = adminloginResponse.getAccessToken();
-
+    @AfterEach
+    void deleteUser() {
+        var token = loginAsAdmin();
         userController.withToken(token).deleteUser(userId)
                 .assertStatusCode(204);
 

@@ -16,6 +16,8 @@ import io.restassured.filter.log.LogDetail;
 public abstract class BaseTest {
 
     protected static final String DEFAULT_PASSWORD = "Nnanana34RFJple#";
+    private static final String ADMIN_EMAIL = "admin@practicesoftwaretesting.com";
+    private static final String ADMIN_PASSWORD = "welcome01";
 
     static {
         configureRestAssured();
@@ -56,6 +58,10 @@ public abstract class BaseTest {
         var userEmail = getUserEmail();
         registerUser(userEmail, DEFAULT_PASSWORD);
         return loginUser(userEmail, DEFAULT_PASSWORD);
+    }
+
+    public String loginAsAdmin() {
+        return loginUser(ADMIN_EMAIL, ADMIN_PASSWORD);
     }
 
     protected NewUserRegisterRequest buildUser(String email, String password) {
