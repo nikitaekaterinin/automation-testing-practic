@@ -1,6 +1,6 @@
 package com.practicesoftwaretesting.api;
 
-import com.practicesoftwaretesting.common.asserts.NotFoundResponseAssert;
+import com.practicesoftwaretesting.common.asserts.ResponseMessageAssert;
 import com.practicesoftwaretesting.user.asserts.LoginUserAsserts;
 import com.practicesoftwaretesting.user.asserts.UserRegistrationAsserts;
 import com.practicesoftwaretesting.user.model.*;
@@ -54,7 +54,7 @@ public class UserAPITests extends BaseTest {
         var messageAfterDelete = userController.withToken(token).getUser(userId)
                 .assertStatusCode(404)
                 .as();
-        new NotFoundResponseAssert(messageAfterDelete)
+        new ResponseMessageAssert(messageAfterDelete)
                 .userNotFound("Requested item not found");
     }
 }

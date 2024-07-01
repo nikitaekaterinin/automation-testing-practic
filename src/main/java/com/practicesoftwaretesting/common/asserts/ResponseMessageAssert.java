@@ -7,12 +7,12 @@ import lombok.AllArgsConstructor;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @AllArgsConstructor
-public class NotFoundResponseAssert {
+public class ResponseMessageAssert {
 
-    private ResponseMessage messageAfterDelete;
+    private ResponseMessage message;
 
-    public NotFoundResponseAssert userNotFound(String errorMessage) {
-        assertThat(messageAfterDelete.getMessage())
+    public ResponseMessageAssert userNotFound(String errorMessage) {
+        assertThat(message.getMessage())
                 .withFailMessage("Error message doesn't match.")
                 .isEqualTo(errorMessage);
         return this;
