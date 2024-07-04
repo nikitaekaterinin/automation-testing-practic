@@ -1,18 +1,18 @@
 package com.practicesoftwaretesting.api;
 
-import com.github.javafaker.Faker;
-import com.practicesoftwaretesting.common.ResponseMessage;
+import com.practicesoftwaretesting.common.asserts.ResponseMessageAssert;
+import com.practicesoftwaretesting.user.asserts.LoginUserAsserts;
+import com.practicesoftwaretesting.user.asserts.UserRegistrationAsserts;
 import com.practicesoftwaretesting.user.model.*;
 import com.practicesoftwaretesting.user.UserController;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class UserAPITests extends BaseTest {
 
-    private static final String USER_PASSWORD = "NanaJJ1929##";
     private String userEmail;
+    private String userId;
 
     UserController userController = new UserController();
 
@@ -20,55 +20,41 @@ public class UserAPITests extends BaseTest {
     void testUserCreateDelete() {
         userEmail = getUserEmail();
 
-        var requestRegisterBody = buildUser();
-        var registeredUserResponse = userController.registerUser(requestRegisterBody)
-                .as(NewUserRegisteredResponse.class);
-        assertEquals("Kate", registeredUserResponse.getFirstName());
-        assertNotNull(registeredUserResponse.getId());
+        var expectedUser = buildUser(userEmail, DEFAULT_PASSWORD);
+        var registeredUserResponse = userController.registerUser(expectedUser)
+                .assertStatusCode(201)
+                .as();
+        new UserRegistrationAsserts(registeredUserResponse)
+                .createdAtIsNotNull()
+                .firstNameIs(expectedUser.getFirstName())
+                .lastNameIs(expectedUser.getLastName())
+                .countryIs(expectedUser.getCountry())
+                .phoneIs(expectedUser.getPhone())
+                .cityIs(expectedUser.getCity())
+                .addressIs(expectedUser.getAddress());
 
-        var requestUserLoginBody = new UserLoginRequest(userEmail, USER_PASSWORD);
+        var requestUserLoginBody = new UserLoginRequest(userEmail, DEFAULT_PASSWORD);
         var userLoginResponse = userController.loginUser(requestUserLoginBody)
-                .as(UserLoginResponse.class);
-        assertNotNull(userLoginResponse.getAccessToken());
+                .assertStatusCode(200)
+                .as();
+        new LoginUserAsserts(userLoginResponse)
+                .isNotExpired()
+                .accessTokenIsNotNull()
+                .tokenTypeIs("bearer");
 
-        var adminLoginRequestBody = new UserLoginRequest("admin@practicesoftwaretesting.com", "welcome01");
-        var adminloginResponse = userController.loginUser(adminLoginRequestBody)
-                .as(UserLoginResponse.class);
-        assertNotNull(adminloginResponse.getAccessToken());
-
-        var userId = registeredUserResponse.getId();
-        var token = adminloginResponse.getAccessToken();
-
-        userController.deleteUser(userId, token)
-                .then()
-                .statusCode(204);
-
-        var messageAfterDelete = userController.getUser(userId, token)
-                .as(ResponseMessage.class);
-        assertEquals("Requested item not found", messageAfterDelete.getMessage());
+        userId = registeredUserResponse.getId();
     }
 
-    private NewUserRegisterRequest buildUser() {
-        return NewUserRegisterRequest.builder()
-                .firstName("Kate")
-                .lastName("Tester")
-                .address("Street 1")
-                .city("City")
-                .state("State")
-                .country("Country")
-                .postcode("1234AA")
-                .phone("0987654321")
-                .dob("1941-01-01")
-                .password(USER_PASSWORD)
-                .email(userEmail)
-                .build();
-    }
+    @AfterEach
+    void deleteUser() {
+        var token = loginAsAdmin();
+        userController.withToken(token).deleteUser(userId)
+                .assertStatusCode(204);
 
-    private String getUserEmail() {
-        return Faker.instance()
-                .friends()
-                .character()
-                .toLowerCase()
-                .replaceAll(" ", "") + "@gmail.com";
+        var messageAfterDelete = userController.withToken(token).getUser(userId)
+                .assertStatusCode(404)
+                .as();
+        new ResponseMessageAssert(messageAfterDelete)
+                .userNotFound("Requested item not found");
     }
 }

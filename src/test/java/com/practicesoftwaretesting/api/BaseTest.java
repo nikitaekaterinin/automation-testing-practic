@@ -2,12 +2,22 @@ package com.practicesoftwaretesting.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.github.javafaker.Faker;
+import com.practicesoftwaretesting.user.UserController;
+import com.practicesoftwaretesting.user.model.NewUserRegisterRequest;
+
+import com.practicesoftwaretesting.user.model.UserLoginRequest;
+
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 
 public abstract class BaseTest {
+
+    protected static final String DEFAULT_PASSWORD = "Nnanana34RFJple#";
+    private static final String ADMIN_EMAIL = "admin@practicesoftwaretesting.com";
+    private static final String ADMIN_PASSWORD = "welcome01";
 
     static {
         configureRestAssured();
@@ -29,5 +39,52 @@ public abstract class BaseTest {
                                 .getObjectMapperConfig()
                                 .jackson2ObjectMapperFactory((cls, charset) -> objectMapper)
                 );
+    }
+
+    public void registerUser(String userEmail, String password) {
+        var userController = new UserController();
+        var registerUserRequest = buildUser(userEmail, password);
+        userController.registerUser(registerUserRequest).as();
+    }
+
+    public String loginUser(String userEmail, String password) {
+        var userController = new UserController();
+        var userLoginResponse = userController.loginUser(new UserLoginRequest(userEmail, password))
+                .as();
+        return userLoginResponse.getAccessToken();
+    }
+
+    public String registerAndLoginNewUser() {
+        var userEmail = getUserEmail();
+        registerUser(userEmail, DEFAULT_PASSWORD);
+        return loginUser(userEmail, DEFAULT_PASSWORD);
+    }
+
+    public String loginAsAdmin() {
+        return loginUser(ADMIN_EMAIL, ADMIN_PASSWORD);
+    }
+
+    protected NewUserRegisterRequest buildUser(String email, String password) {
+        return NewUserRegisterRequest.builder()
+                .firstName("Kate")
+                .lastName("Tester")
+                .address("Street 1")
+                .city("City")
+                .state("State")
+                .country("Country")
+                .postcode("1234AA")
+                .phone("0987654321")
+                .dob("1941-01-01")
+                .password(password)
+                .email(email)
+                .build();
+    }
+
+    protected String getUserEmail() {
+        return Faker.instance()
+                .friends()
+                .character()
+                .toLowerCase()
+                .replaceAll(" ", "") + "@gmail.com";
     }
 }

@@ -1,11 +1,11 @@
-package com.practicesoftwaretesting.common;
+package com.practicesoftwaretesting.common.responses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ResponseMessage {
+public class ResponseResult {
 
-    private String message;
+    private String result;
 }
