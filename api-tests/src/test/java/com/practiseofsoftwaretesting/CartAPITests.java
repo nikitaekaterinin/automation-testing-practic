@@ -1,4 +1,4 @@
-package com.practicesoftwaretesting.api;
+package com.practiseofsoftwaretesting;
 
 import com.practicesoftwaretesting.cart.CartController;
 import com.practicesoftwaretesting.cart.asserts.CartItemsAsserts;
