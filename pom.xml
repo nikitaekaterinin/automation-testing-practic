@@ -32,6 +32,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.practicesoftwaretesting</groupId>
+                <artifactId>api-tests</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
                 <version>${junit.version}</version>
@@ -71,7 +76,7 @@
             <dependency>
                 <groupId>com.codeborne</groupId>
                 <artifactId>selenide</artifactId>
-                <version>${selenide.version}</version>gi
+                <version>${selenide.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
