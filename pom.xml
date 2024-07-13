@@ -71,7 +71,7 @@
             <dependency>
                 <groupId>com.codeborne</groupId>
                 <artifactId>selenide</artifactId>
-                <version>${selenide.version}</version>
+                <version>${selenide.version}</version>gi
             </dependency>
         </dependencies>
     </dependencyManagement>
