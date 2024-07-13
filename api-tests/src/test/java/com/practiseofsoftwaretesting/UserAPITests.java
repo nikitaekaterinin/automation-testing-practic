@@ -1,4 +1,4 @@
-package com.practicesoftwaretesting.api;
+package com.practiseofsoftwaretesting;
 
 import com.practicesoftwaretesting.common.asserts.ResponseMessageAssert;
 import com.practicesoftwaretesting.user.asserts.LoginUserAsserts;

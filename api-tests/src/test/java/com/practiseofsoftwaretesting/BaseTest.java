@@ -1,4 +1,4 @@
-package com.practicesoftwaretesting.api;
+package com.practiseofsoftwaretesting;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
