@@ -34,7 +34,7 @@ public class RegisterPage {
     protected static final By EMAIL_INPUT = byId("email");
     protected static final By PASSWORD_LABEL = byFor("password");
     protected static final By PASSWORD_INPUT = byId("password");
-    private static final String REGISTER_BUTTON = "register-submit";
+    private static final By REGISTER_BUTTON = byDataTest("register-submit");
 
     public RegisterPage isLoaded() {
         $("h3").shouldHave(text("Customer registration"));
@@ -56,6 +56,6 @@ public class RegisterPage {
         $(PHONE_INPUT).setValue(user.getPhone());
         $(EMAIL_INPUT).setValue(user.getEmail());
         $(PASSWORD_INPUT).setValue(user.getPassword());
-        $(byDataTest(REGISTER_BUTTON)).click();
+        $(REGISTER_BUTTON).click();
     }
 }
