@@ -5,24 +5,29 @@ import com.practicesoftwaretesting.cart.asserts.CartItemsAsserts;
 import com.practicesoftwaretesting.cart.asserts.CreatedCartAsserts;
 import com.practicesoftwaretesting.cart.model.AddItemToCartRequest;
 import com.practicesoftwaretesting.cart.model.CartItem;
+import static com.practicesoftwaretesting.user.UserSteps.getUserEmail;
 
 import com.practicesoftwaretesting.common.asserts.ResponseResultAssert;
 import com.practicesoftwaretesting.product.ProductController;
 import com.practicesoftwaretesting.product.model.ProductRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
 
 public class CartAPITests extends BaseTest {
 
     private String authToken;
     private String productId;
+    private String userId;
 
     CartController cartController = new CartController();
     ProductController productController = new ProductController();
 
     @BeforeEach
     void beforeEach() {
-        authToken = registerAndLoginNewUser();
+        var email = getUserEmail();
+        userId = registerUser(email, defaultPassword);
+        authToken = loginUser(email, defaultPassword);
 
         var productRequest = ProductRequest.builder()
                 .page(1)
@@ -58,5 +63,10 @@ public class CartAPITests extends BaseTest {
 
         cartController.deleteCart(cartId)
                 .assertStatusCode(204);
+    }
+
+    @AfterEach
+    void cleanup() {
+        userSteps.deleteUser(userId);
     }
 }

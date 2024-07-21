@@ -3,15 +3,19 @@ package com.practiseofsoftwaretesting;
 import com.practicesoftwaretesting.user.UserSteps;
 import com.practicesoftwaretesting.user.model.NewUserRegisterRequest;
 
-import static com.practicesoftwaretesting.user.UserSteps.ADMIN_EMAIL;
-import static com.practicesoftwaretesting.user.UserSteps.ADMIN_PASSWORD;
+import com.practicesoftwaretesting.utils.ConfigReader;
 
 public abstract class BaseTest {
 
+    ConfigReader configReader = new ConfigReader();
+    String adminEmail = configReader.getProperty("admin.email");
+    String adminPassword = configReader.getProperty("admin.password");
+    String defaultPassword = configReader.getProperty("default.password");
+
     UserSteps userSteps = new UserSteps();
 
-    public void registerUser(String userEmail, String password) {
-        userSteps.registerUser(userEmail, password);
+    public String registerUser(String userEmail, String password) {
+        return userSteps.registerUser(userEmail, password);
     }
 
     public String loginUser(String userEmail, String password) {
@@ -19,18 +23,6 @@ public abstract class BaseTest {
     }
 
     public String loginAsAdmin() {
-        return loginUser(ADMIN_EMAIL, ADMIN_PASSWORD);
-    }
-
-    public String registerAndLoginNewUser() {
-        return userSteps.registerAndLoginNewUser();
-    }
-
-    public NewUserRegisterRequest buildUser(String email, String password) {
-        return userSteps.buildUser(email, password);
-    }
-
-    public String getUserEmail() {
-        return userSteps.getUserEmail();
+        return loginUser(adminEmail, adminPassword);
     }
 }

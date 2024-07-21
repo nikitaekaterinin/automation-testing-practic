@@ -3,10 +3,9 @@ package com.practiseofsoftwaretesting;
 import com.practicesoftwaretesting.pages.*;
 import com.practicesoftwaretesting.user.model.NewUserRegisterRequest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
 
-import static com.codeborne.selenide.Selenide.open;
-
-public class UserTest {
+public class UserTest extends BaseTest {
     HomePage homePage = new HomePage();
     Header header = new Header();
     LoginPage loginPage = new LoginPage();
@@ -15,8 +14,8 @@ public class UserTest {
 
     @Test
     void registerNewUserAndLogin() {
-        open("https://practicesoftwaretesting.com/#/");
-        homePage.isLoaded();
+        homePage.open()
+                .isLoaded();
         header.clickSignInMenuItem();
         loginPage.isLoaded()
                 .clickRegisterYourAccount();
@@ -48,5 +47,11 @@ public class UserTest {
                 .email("georgeharrison125@gmail.com")
                 .password("12Example#")
                 .build();
+    }
+
+    @AfterEach
+    void cleanup() {
+        var users = searchUsers("Harrison");
+        users.getData().forEach(userToDelete -> deleteUser(userToDelete.getId()));
     }
 }

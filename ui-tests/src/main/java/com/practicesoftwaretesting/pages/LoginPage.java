@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.practicesoftwaretesting.utils.SelectorsUtils.byDataTest;
+import com.codeborne.selenide.Selenide;
 
 public class LoginPage {
 
@@ -25,5 +26,10 @@ public class LoginPage {
         $(EMAIL_INPUT).setValue(email);
         $(PASSWORD_INPUT).setValue(password);
         $(LOGIN_BUTTON).click();
+    }
+
+    public LoginPage open() {
+        Selenide.open("/auth/login");
+        return this;
     }
 }

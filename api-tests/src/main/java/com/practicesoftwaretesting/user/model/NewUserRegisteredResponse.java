@@ -1,9 +1,11 @@
 package com.practicesoftwaretesting.user.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NewUserRegisteredResponse {
 
     @JsonProperty("first_name")

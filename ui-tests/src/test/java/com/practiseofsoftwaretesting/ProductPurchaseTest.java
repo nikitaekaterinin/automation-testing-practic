@@ -1,32 +1,26 @@
 package com.practiseofsoftwaretesting;
 
 import com.practicesoftwaretesting.pages.*;
-import com.practicesoftwaretesting.user.UserSteps;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Selenide.open;
-import static com.practicesoftwaretesting.user.UserSteps.DEFAULT_PASSWORD;
+import static com.practicesoftwaretesting.user.UserSteps.getUserEmail;
 
-public class ProductPurchaseTest {
+public class ProductPurchaseTest extends BaseTest{
 
-    UserSteps userSteps = new UserSteps();
-    LoginPage loginPage = new LoginPage();
-    AccountPage accountPage = new AccountPage();
     HomePage homePage = new HomePage();
     ProductPage productPage = new ProductPage();
     Header header = new Header();
     CheckoutPage checkoutPage = new CheckoutPage();
 
+    private String userId;
+
     @BeforeEach
     void setup() {
-        var email = userSteps.getUserEmail();
-        userSteps.registerUser(email, DEFAULT_PASSWORD);
-
-        open("https://practicesoftwaretesting.com/#/auth/login");
-        loginPage.login(email, DEFAULT_PASSWORD);
-        accountPage.isLoaded();
-        open("https://practicesoftwaretesting.com/#/");
+        var email = getUserEmail();
+        userId = registerUser(email);
+        loginUser(email, defaultPassword);
     }
 
     @Test
@@ -45,5 +39,10 @@ public class ProductPurchaseTest {
                 .chooseCashPaymentMethodAndConfirm()
                 .assertThat()
                 .successfulMessageIsDisplayed();
+    }
+
+    @AfterEach
+    void cleanup() {
+        deleteUser(userId);
     }
 }
