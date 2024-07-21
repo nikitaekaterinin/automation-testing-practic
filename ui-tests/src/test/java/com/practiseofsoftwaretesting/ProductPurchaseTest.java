@@ -1,18 +1,12 @@
 package com.practiseofsoftwaretesting;
 
 import com.practicesoftwaretesting.pages.*;
-import com.practicesoftwaretesting.user.UserSteps;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Selenide.open;
-import static com.practicesoftwaretesting.user.UserSteps.DEFAULT_PASSWORD;
 
 public class ProductPurchaseTest extends BaseTest{
 
-    UserSteps userSteps = new UserSteps();
-    LoginPage loginPage = new LoginPage();
-    AccountPage accountPage = new AccountPage();
     HomePage homePage = new HomePage();
     ProductPage productPage = new ProductPage();
     Header header = new Header();
@@ -20,14 +14,7 @@ public class ProductPurchaseTest extends BaseTest{
 
     @BeforeEach
     void setup() {
-        var email = userSteps.getUserEmail();
-        userSteps.registerUser(email, DEFAULT_PASSWORD);
-
-        loginPage.open()
-                .isLoaded()
-                .login(email, DEFAULT_PASSWORD);
-        accountPage.isLoaded();
-        homePage.open();
+        registerAndLoginAsNewUser();
     }
 
     @Test
