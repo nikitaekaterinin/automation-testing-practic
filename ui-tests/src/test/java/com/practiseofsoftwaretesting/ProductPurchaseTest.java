@@ -1,9 +1,11 @@
 package com.practiseofsoftwaretesting;
 
 import com.practicesoftwaretesting.pages.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.practicesoftwaretesting.user.UserSteps.getUserEmail;
 
 public class ProductPurchaseTest extends BaseTest{
 
@@ -12,9 +14,13 @@ public class ProductPurchaseTest extends BaseTest{
     Header header = new Header();
     CheckoutPage checkoutPage = new CheckoutPage();
 
+    private String userId;
+
     @BeforeEach
     void setup() {
-        registerAndLoginAsNewUser();
+        var email = getUserEmail();
+        userId = registerUser(email);
+        loginUser(email, defaultPassword);
     }
 
     @Test
@@ -33,5 +39,10 @@ public class ProductPurchaseTest extends BaseTest{
                 .chooseCashPaymentMethodAndConfirm()
                 .assertThat()
                 .successfulMessageIsDisplayed();
+    }
+
+    @AfterEach
+    void cleanup() {
+        deleteUser(userId);
     }
 }

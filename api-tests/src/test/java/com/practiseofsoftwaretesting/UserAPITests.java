@@ -5,6 +5,8 @@ import com.practicesoftwaretesting.user.asserts.LoginUserAsserts;
 import com.practicesoftwaretesting.user.asserts.UserRegistrationAsserts;
 import com.practicesoftwaretesting.user.model.*;
 import com.practicesoftwaretesting.user.UserController;
+import static com.practicesoftwaretesting.user.UserSteps.getUserEmail;
+import static com.practicesoftwaretesting.user.UserSteps.buildUser;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
