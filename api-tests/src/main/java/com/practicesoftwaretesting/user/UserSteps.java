@@ -2,12 +2,12 @@ package com.practicesoftwaretesting.user;
 import com.github.javafaker.Faker;
 import com.practicesoftwaretesting.user.model.UserLoginRequest;
 import com.practicesoftwaretesting.user.model.NewUserRegisterRequest;
+import com.practicesoftwaretesting.utils.ConfigReader;
 
 public class UserSteps {
 
-    public static final String DEFAULT_PASSWORD = "12Example#";
-    public static final String ADMIN_EMAIL = "admin@practicesoftwaretesting.com";
-    public static final String ADMIN_PASSWORD = "welcome01";
+    ConfigReader configReader = new ConfigReader();
+    String defaultPassword = configReader.getProperty("default.password");
 
     public void registerUser(String userEmail, String password) {
         var userController = new UserController();
@@ -24,12 +24,8 @@ public class UserSteps {
 
     public String registerAndLoginNewUser() {
         var userEmail = getUserEmail();
-        registerUser(userEmail, DEFAULT_PASSWORD);
-        return loginUser(userEmail, DEFAULT_PASSWORD);
-    }
-
-    public String loginAsAdmin() {
-        return loginUser(ADMIN_EMAIL, ADMIN_PASSWORD);
+        registerUser(userEmail, defaultPassword);
+        return loginUser(userEmail, defaultPassword);
     }
 
     public NewUserRegisterRequest buildUser(String email, String password) {
